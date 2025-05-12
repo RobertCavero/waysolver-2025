@@ -1,74 +1,53 @@
-import random
+import pygame
 
-# Solicita as coordenadas dos pontos ao usuário
-def obter_coordenadas():
-    print("Digite as coordenadas (numeros inteiros) do ponto de partida (pp):")
-    pp_x = int(input("x: "))
-    pp_y = int(input("y: "))
-    
-    print("Digite as coordenadas (numeros inteiros) do ponto de destino (pd):")
-    pd_x = int(input("x: "))
-    pd_y = int(input("y: "))
-    
-    n = int(input("Digite a quantidade de pontos (numeros inteiros) a serem gerados (n): "))
-    
-    return (pp_x, pp_y), (pd_x, pd_y), n
+WHITE = (255, 255, 255)
+BLACK = (0, 0, 0)
+ORANGE = (255, 165 ,0)
+TURQUOISE = (64, 224, 208)
+RED = (255, 0, 0)
+GREEN = (0, 255, 0)
+PURPLE = (128, 0, 128)
+GREY = (128, 128, 128)
+BLUE = (0, 0, 255)  
+SEAGREEN = (46, 139, 87) 
+YELLOW = (255, 255, 0)
 
-# Gera coordenadas com base nos requisitos
-def gerar_pontos(pp, pd, n):
-    # Calcula ci (0.1 vezes as coordenadas de pp) e cf (1.1 vezes as coordenadas de pd)
-    ci = (int(pp[0] * 0.1), int(pp[1] * 0.1))
-    cf = (int(pd[0] * 1.1), int(pd[1] * 1.1))
-    
-    # Calcula quantidade de pontos caminho (pc) e obstáculos (po) com inteiros
-    n_pc = int(0.8 * n)  # 80% dos pontos
-    n_po = int(0.2 * n)  # 20% dos pontos
-    
-    # Define limites para geração aleatória baseado nos pontos extremos
-    min_x = min(pp[0], pd[0], ci[0], cf[0])
-    max_x = max(pp[0], pd[0], ci[0], cf[0])
-    min_y = min(pp[1], pd[1], ci[1], cf[1])
-    max_y = max(pp[1], pd[1], ci[1], cf[1])
-    
-    # Gera pontos caminho (pc)
-    pontos_caminho = []
-    for _ in range(n_pc):
-        x = random.randint(min_x,max_x)
-        y = random.randint(min_y,max_y)
-        pontos_caminho.append((x, y, "pc"))
-    
-    # Gera pontos obstáculo (po)
-    pontos_obstaculo = []
-    for _ in range(n_po):
-        x = random.randint(min_x, max_x)
-        y = random.randint(min_y, max_y)
-        pontos_obstaculo.append((x, y, "po"))
-    
-    # Cria matriz com todos os pontos
-    matriz_pontos = [
-        (pp[0], pp[1], "pp"),
-        (pd[0], pd[1], "pd"),
-        (ci[0], ci[1], "ci"),
-        (cf[0], cf[1], "cf")
-    ] + pontos_caminho + pontos_obstaculo
-    
-    return matriz_pontos
 
-# Função principal
-def main():
-    # Obtém os dados do usuário
-    ponto_partida, ponto_destino, quantidade = obter_coordenadas()
-    
-    # Gera todos os pontos
-    matriz = gerar_pontos(ponto_partida, ponto_destino, quantidade)
-    
-    # Exibe a matriz resultante
-    print("\nMatriz de pontos gerada:")
-    print("x\t\ty\t\tclassificação")
-    print("-" * 40)
-    for ponto in matriz:
-        print(f"{ponto[0]}\t\t{ponto[1]}\t\t{ponto[2]}")
+class Spot:
+    def __init__(self, row, col, width, total_rows):
+        self.row = row
+        self.col = col
+        self.x = row * width
+        self.y = col * width
+        self.color = WHITE
+        self.neighbors = []
+        self.width = width
+        self.total_rows = total_rows
 
-# Executa o programa
-if __name__ == "__main__":
-    main()
+    def get_pos(self):
+        return self.row, self.col
+
+    def is_closed(self): return self.color == RED
+    def is_open(self): return self.color == GREEN
+    def is_barrier(self): return self.color == BLACK
+    def is_start(self): return self.color == YELLOW
+    def is_end(self): return self.color == BLUE
+
+    def reset(self): self.color = WHITE
+    def make_start(self): self.color = YELLOW
+    def make_closed(self): self.color = RED
+    def make_open(self): self.color = GREEN
+    def make_barrier(self): self.color = BLACK
+    def make_end(self): self.color = BLUE
+    def make_path(self): self.color = PURPLE
+
+    def draw(self, win): pygame.draw.rect(win, self.color, (self.x, self.y, self.width, self.width))
+
+    def update_neighbors(self, grid):
+        self.neighbors = []
+        if self.row < self.total_rows - 1 and not grid[self.row + 1][self.col].is_barrier(): self.neighbors.append(grid[self.row + 1][self.col])
+        if self.row > 0 and not grid[self.row - 1][self.col].is_barrier(): self.neighbors.append(grid[self.row - 1][self.col])
+        if self.col < self.total_rows - 1 and not grid[self.row][self.col + 1].is_barrier(): self.neighbors.append(grid[self.row][self.col + 1])
+        if self.col > 0 and not grid[self.row][self.col - 1].is_barrier(): self.neighbors.append(grid[self.row][self.col - 1])
+
+    def __lt__(self, other): return False
