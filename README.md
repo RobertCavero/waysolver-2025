@@ -1,7 +1,6 @@
 
 # Waysolver-2025
 
-Uma breve descrição sobre o que esse projeto faz e para quem ele é
 O Waysolver é um programa executável que permite ao usuário visualizar o funcionamento de um sistema de navegação em conjunto com conceitos da áreas de **Estrutura de Dados**, **Linguagens Formais e Autômatos** e **Teoria dos Grafos e Complexidade**. Ademais, o projeto é direcionado a usuários com interesse em compreender melhor o funcionamento do algoritmo A* e sua aplicação prática.
 
 
