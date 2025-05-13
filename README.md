@@ -30,7 +30,7 @@ X . X . . . X . . .
 
 **Os demais botões são:**
 
-Iniciar - utilizável quando o ponto inicial e o ponto final já estiverem definidos.
+Iniciar - Inicia a busca pela rota mais curta. Utilizável quando o ponto inicial e o ponto final já estiverem definidos.
 
 Resertar - limpa todos o mapa da aplicação, incluindo o ponto inicial e final.
 
