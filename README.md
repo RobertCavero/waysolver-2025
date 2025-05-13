@@ -32,11 +32,11 @@ X . X . . . X . . .
 
 Iniciar - Inicia a busca pela rota mais curta. Utilizável quando o ponto inicial e o ponto final já estiverem definidos.
 
-Resertar - limpa todos o mapa da aplicação, incluindo o ponto inicial e final.
+Resertar - limpa o mapa da aplicação, incluindo o ponto inicial e final.
 
 Modo Obstáculo/Modo Normal - botão que alterna entre as funcionalidades de desenhar manualmente os obstáculos e de escolher o ponto inicial e final.
 
-Gerar labirinto - torna de maneira aleatória 30% das espaços livres em obstáculos, criando assim um labirinto.
+Gerar labirinto - torna, de maneira aleatória, 30% das espaços livres em obstáculos, criando assim um labirinto.
 
 Carregar mapa - utilizando um arquivo .txt escrito com base na notação simples supracitada.
 
